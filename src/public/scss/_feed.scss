@@ -1,0 +1,62 @@
+section {
+  padding: 12px;
+
+  // padding: 60px;
+  // display: flex;
+  // flex-direction: column;
+  // gap: 12px;
+}
+
+.tweet-card {
+  margin: auto;
+  margin-bottom: 12px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+
+  p {
+    font-size: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  span {
+    color: $secondary-text-color;
+    font-size: 12px;
+  }
+  .like-count {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  @include mobile {
+    width: 90%;
+    p {
+      font-size: 16px;
+    }
+  }
+  @include large-mobile {
+    width: 80%;
+    p {
+      font-size: 20px;
+    }
+  }
+  @include small-desktop {
+    width: 70%;
+  }
+}
+
+.tweet-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.tweet-meta {
+  display: flex;
+  justify-content: space-between;
+}
+.tweet-actions {
+  display: flex;
+  justify-content: right;
+  gap: 12px;
+}

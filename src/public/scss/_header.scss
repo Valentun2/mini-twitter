@@ -1,0 +1,158 @@
+header {
+  background: white;
+  padding: 25px 40px;
+
+  display: flex;
+  justify-content: space-between;
+  h1 {
+    color: rgb(0, 0, 128);
+  }
+}
+
+.logout {
+  color: $danger-color;
+  font-size: 16px;
+}
+
+.add {
+  background-color: rgb(0, 0, 128);
+  padding: 12px 24px;
+  // font-size: 24px;
+  border-radius: 12px;
+  color: azure;
+  // width: 40px;
+  // height: 40px;
+  position: fixed; // Ключова властивість: фіксує елемент відносно вікна перегляду
+  bottom: 20px; // Відступ 20px від нижнього краю вікна
+  right: 20px;
+}
+
+svg {
+  width: 36px;
+  height: 36px;
+  border: 1px black solid;
+  // padding: 8px;
+  border-radius: 50%;
+}
+
+/* 1. Контейнер-обгортка (Батьківський елемент) */
+.svg-wrraper.dropdown {
+  position: relative; /* Це "якір" для випадаючого списку */
+  display: inline-block;
+  cursor: pointer; /* Курсор-рука при наведенні */
+  padding: 5px; /* Трохи місця навколо іконки */
+}
+
+/* Стилізація вашої іконки (якщо ще немає розмірів) */
+.icon-user {
+  width: 32px;
+  height: 32px;
+  fill: #333; /* Колір іконки */
+  display: block; /* Прибирає зайві відступи знизу */
+}
+
+/* 2. Випадаючий список (Спочатку прихований) */
+.dropdown-content {
+  display: none; /* Приховано за замовчуванням */
+
+  position: absolute; /* Абсолютне позиціювання */
+  top: 100%; /* З'являється одразу під іконкою */
+  right: 0; /* Рівняємо по правому краю іконки (зручно для меню профілю) */
+  /* Або використайте left: 0; якщо хочете по лівому */
+
+  /* Обмеження та розміри */
+  min-width: 160px; /* Мінімальна ширина, щоб текст не ламався */
+  max-height: 200px; /* Максимальна висота (як ви просили) */
+  overflow-y: auto; /* Скрол, якщо контенту багато */
+
+  /* Краса (фон, тіні) */
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+
+  /* Скидання стандартних стилів списку ul */
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0; /* 10px відступ зверху від іконки */
+  z-index: 100; /* Щоб було поверх інших елементів */
+}
+
+/* Стилі для елементів списку */
+.dropdown-content li {
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-content li:last-child {
+  border-bottom: none; /* Прибираємо лінію у останнього елемента */
+}
+
+/* Текст та посилання всередині */
+.dropdown-content span,
+.dropdown-content a {
+  display: block; /* Щоб клікабельною була вся смужка */
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap; /* Текст в один рядок */
+}
+
+/* Ефект наведення на пункти меню */
+.dropdown-content li:hover {
+  background-color: #f5f5f5;
+}
+
+/* 3. МАГІЯ: Показуємо список при наведенні на обгортку */
+.svg-wrraper.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* Створюємо невидимий шар над меню */
+.dropdown-content::before {
+  content: "";
+  position: absolute;
+  /* Розміщуємо його над меню, заповнюючи простір відступу */
+  bottom: 100%;
+  left: 0;
+  width: 150%;
+  height: 15px; /* Висота трохи більша за ваш margin (10px) */
+  background-color: transparent; /* Він невидимий */
+}
+
+/* 1. Зміни для батьківського контейнера */
+.svg-wrraper.dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  /* !!! ГОЛОВНИЙ ФІКС !!! */
+  /* Додаємо прозорий відступ знизу. Це і буде ваш "місток" */
+  padding-bottom: 15px;
+}
+
+/* 2. Зміни для випадаючого списку */
+.dropdown-content {
+  display: none;
+  position: absolute;
+
+  /* Розміщуємо меню рівно під батьківським елементом (після його padding-у) */
+  top: 100%;
+  right: 0; /* Або left: 0, залежно від дизайну */
+
+  /* !!! ВАЖЛИВО !!! */
+  /* Прибираємо margin, оскільки відступ тепер створює padding батька */
+  margin-top: 0;
+
+  /* Ваші стилі оформлення... */
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  min-width: 160px;
+  z-index: 100;
+}
+
+/* Ховер залишається тим самим */
+.svg-wrraper.dropdown:hover .dropdown-content {
+  display: block;
+}

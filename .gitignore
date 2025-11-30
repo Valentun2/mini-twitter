@@ -1,0 +1,6 @@
+/src/vendor/
+.idea/
+.vscode/
+.DS_Store
+docker-compose.yml
+/mysql-data/

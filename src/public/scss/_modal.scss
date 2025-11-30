@@ -1,0 +1,127 @@
+.tweet-modals {
+  background-color: $widget-background;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  // transform: translate(-50%, -50%);
+  &::backdrop {
+    background-color: transparent;
+    backdrop-filter: blur(2px);
+  }
+
+  h2 {
+    background: #f0f2f5;
+    text-align: center;
+    margin-bottom: 12px;
+    padding: 8px;
+    color: rgb(0, 0, 128);
+  }
+  form {
+    padding: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
+      color: $text-color;
+      font-size: 14px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 1px solid $border-color;
+      border-radius: 12px;
+      font-size: 14px;
+      resize: none;
+      transition: border-color 0.2s ease-in-out;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 12px;
+    }
+  }
+  button[type="submit"] {
+    @extend .button;
+    @extend .button--primary;
+  }
+  button[type="button"] {
+    @extend .button;
+    @extend .button--outline;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+dialog[open] {
+  animation: fadeIn 0.5s ease-out forwards;
+  &::backdrop {
+    animation: fadeBackdropIn 0.5s ease-out forwards;
+  }
+}
+
+@keyframes fadeBackdropIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.confirm-delete {
+  background: #f0f2f5;
+  min-width: 200px;
+  padding: 24px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid $text-color-muted;
+  border-radius: 12px;
+  text-align: center;
+  p {
+    font-size: 24px;
+  }
+  div {
+    margin-top: 12px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  .cancel-btn {
+    @extend .button;
+    @extend .button--outline;
+  }
+  .confirm-btn {
+    @extend .button;
+    @extend .button--primary;
+  }
+}

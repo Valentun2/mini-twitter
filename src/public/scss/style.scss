@@ -1,0 +1,11 @@
+@import "variables";
+@import "mixin";
+@import "buttons";
+@import "reset";
+@import "header";
+@import "feed";
+@import "modal";
+@import "auth";
+body {
+  background-color: #f0f2f5;
+}
