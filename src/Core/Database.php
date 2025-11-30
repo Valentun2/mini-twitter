@@ -9,11 +9,22 @@ class Database
 {
 
 
-    private $host = 'mysql'; // Назва сервісу з docker-compose.yml
-    private $db_name = 'my_database';
-    private $username = 'root';
-    private $password = 'mysecretpassword';
-    public $conn; // З'єднання
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
+    public $conn;
+
+    public function __construct()
+    {
+
+        $config = require __DIR__ . '/../config.php';
+
+        $this->host = $config['db_host'];
+        $this->db_name = $config['db_name'];
+        $this->username = $config['db_user'];
+        $this->password = $config['db_pass'];
+    }
 
     // Метод, який буде підключатися до БД
     public function getConnection()
