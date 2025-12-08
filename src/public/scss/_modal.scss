@@ -104,7 +104,7 @@ dialog[open] {
 
 .confirm-delete {
   background: #f0f2f5;
-  padding: 24px;
+  padding: 12px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -114,7 +114,13 @@ dialog[open] {
   text-align: center;
 
   p {
-    font-size: 24px;
+    font-size: 18px;
+  }
+  @include tablet {
+    padding: 24px;
+    p {
+      font-size: 24px;
+    }
   }
   div {
     margin-top: 12px;
