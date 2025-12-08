@@ -26,7 +26,7 @@ export function timeAgo(dateString) {
   const seconds = Math.floor((now - date) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
-  if (interval >= 1) return interval + " р. тому"; // роки
+  if (interval >= 1) return interval + " р. тому";
 
   interval = Math.floor(seconds / 2592000);
   if (interval >= 1) return interval + " міс. тому";

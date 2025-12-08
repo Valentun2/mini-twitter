@@ -1,9 +1,10 @@
 .tweet-modals {
+  padding: 0;
   background-color: $widget-background;
   border: none;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
+  max-width: 450px;
   width: 90%;
   position: fixed;
   top: 50%;
@@ -18,12 +19,13 @@
     background: #f0f2f5;
     text-align: center;
     margin-bottom: 12px;
-    padding: 8px;
+    padding: 12px;
     color: rgb(0, 0, 128);
+    font-size: 20px;
   }
   form {
-    padding: 12px;
-
+    padding: 28px;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
