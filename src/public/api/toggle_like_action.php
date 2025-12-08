@@ -15,7 +15,11 @@ use App\Models\Tweet;
 
 if (!isset($_POST['tweet_id'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Tweet ID is missing']);
+    echo json_encode([
+        "status" => "error",
+
+        'error' => 'Tweet ID is missing'
+    ]);
     exit;
 }
 
@@ -45,8 +49,18 @@ try {
         'new_count' => $newLikeCount
     ]);
     exit;
-} catch (Exception $e) {
+} catch (PDOException $e) {
+    error_log("Database Error: " . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    exit;
+    echo json_encode([
+        "status" => "error",
+        "message" => "Internal Server Error"
+    ]);
+} catch (Exception $e) {
+    error_log("General Error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "An unexpected error occurred"
+    ]);
 }

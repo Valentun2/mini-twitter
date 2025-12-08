@@ -1,18 +1,14 @@
 section {
   padding: 12px;
-
-  // padding: 60px;
-  // display: flex;
-  // flex-direction: column;
-  // gap: 12px;
+  padding-bottom: 50px;
 }
 
 .tweet-card {
   margin: auto;
   margin-bottom: 12px;
-  background: white;
+  background: $widget-background;
   border-radius: 12px;
-  padding: 12px;
+  padding: 16px;
   width: 100%;
 
   p {
@@ -25,8 +21,12 @@ section {
     font-size: 12px;
   }
   .like-count {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translateX(-50%);
   }
   @include mobile {
     width: 90%;
@@ -58,5 +58,57 @@ section {
 .tweet-actions {
   display: flex;
   justify-content: right;
-  gap: 12px;
+  gap: 20px;
+}
+
+.svg-btn {
+  &:hover {
+    .icon-pencil,
+    .icon-delete {
+      stroke-width: 2px;
+    }
+  }
+  .icon-pencil,
+  .icon-delete {
+    pointer-events: none;
+
+    width: 20px;
+    height: 20px;
+
+    fill: none;
+    stroke: currentColor;
+
+    stroke-width: 1.5px;
+
+    transition: stroke-width 0.3s ease;
+  }
+}
+.button-like {
+  color: #000;
+  position: relative;
+  &:hover {
+    .icon-heart {
+      stroke-width: 2px;
+    }
+  }
+  .icon-heart {
+    pointer-events: none;
+    width: 24px;
+    height: 24px;
+
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 1.5px;
+
+    transition: fill 0.3s ease, stroke 0.3s ease, transform 0.2s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+  }
+
+  &.is-active {
+    .icon-heart {
+      fill: $like-color;
+      stroke: $like-color;
+
+      transform: scale(1.1);
+    }
+  }
 }

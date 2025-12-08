@@ -18,53 +18,71 @@ $user = new User($db);
 
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Method Not Allowed"
+    ]);
+    exit;
+}
 
-    $error = [];
+$error = [];
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    if (empty($email)) {
-        $errors['email'] = "Поле email не може бути порожнім.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Некоректний email.";
-    }
+$email = $_POST['email'];
+$password = $_POST['password'];
+if (empty($email)) {
+    $errors['email'] = "Поле email не може бути порожнім.";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors['email'] = "Некоректний email.";
+}
 
-    if (strlen($password) < 6) {
-        $errors['password'] = "Пароль користувача має бути не менше 6 символів.";
-    }
+if (strlen($password) < 6) {
+    $errors['password'] = "Пароль користувача має бути не менше 6 символів.";
+}
 
 
-    if (!empty($errors)) {
+if (!empty($errors)) {
+    echo json_encode([
+        "status" => "error",
+        "errors" => $errors,
+    ]);
+    exit();
+}
+
+try {
+    $loggedInUser = $user->login($email, $password);
+
+    if ($loggedInUser) {
+        session_regenerate_id(true);
+        $_SESSION['user_id'] = $loggedInUser['id'];
+        $_SESSION['user_name'] = $loggedInUser['name'];
         echo json_encode([
-            "success" => false,
-            "errors" => $errors, // Відправляємо весь масив помилок
+            "status" => "success",
         ]);
-        exit();
+        exit;
+    } else {
+        $errors['email'] = "Не вірний пароль або email.";
+
+        $errors['password'] = "Не вірний пароль або email.";
+
+        echo json_encode([
+            "status" => "error",
+            "errors" => $errors
+        ]);
     }
-
-    try {
-        $loggedInUser = $user->login($email, $password);
-
-        if ($loggedInUser) {
-
-            $_SESSION['user_id'] = $loggedInUser['id'];
-            $_SESSION['user_name'] = $loggedInUser['name'];
-            echo json_encode([
-                "success" => true,
-            ]);
-            exit;
-        } else {
-            $errors['email'] = "Не вірний пароль або email.";
-
-            $errors['password'] = "Не вірний пароль або email.";
-
-            echo json_encode([
-                "success" => false,
-                "errors" => $errors
-            ]);
-        }
-    } catch (\Throwable $th) {
-        //throw $th;
-    }
+} catch (PDOException $e) {
+    error_log("Database Error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Internal Server Error"
+    ]);
+} catch (Exception $e) {
+    error_log("General Error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "An unexpected error occurred"
+    ]);
 }

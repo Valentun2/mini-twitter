@@ -10,6 +10,7 @@
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
   outline: none !important;
+
   &:hover {
     outline: none !important;
   }
@@ -23,13 +24,13 @@
 
 .button--primary {
   background-color: $primary-blue;
-  color: $widget-background; // Білий текст
-  border: 1px solid $primary-blue; // Синя рамка
+  color: $widget-background;
+  border: 1px solid $primary-blue;
 
   &:hover {
     background-color: $primary-blue-dark;
     border-color: $primary-blue-dark;
-    box-shadow: 0 2px 5px rgba($primary-blue, 0.3); // Легка тінь при hover
+    box-shadow: 0 2px 5px rgba($primary-blue, 0.3);
   }
 
   &:active {
@@ -40,7 +41,7 @@
 
 .button--outline {
   background-color: $background-page;
-  color: $text-color-light;
+  color: $secondary-text-color;
   border: 1px solid $border-color;
 
   &:hover {
@@ -58,4 +59,16 @@
     border-color: darken($border-color, 10%);
     transform: translateY(1px);
   }
+}
+
+.add-tweet {
+  z-index: 100;
+  background-color: $dark-blue-color;
+  padding: 12px 24px;
+  border-radius: 12px;
+  color: $widget-background;
+
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }

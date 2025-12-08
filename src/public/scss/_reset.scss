@@ -1,7 +1,3 @@
-/* my-php-project/src/public/scss/_reset.scss */
-
-// 1. Скидаємо box-sizing для всіх елементів
-// Це робить макети передбачуванішими
 html {
   box-sizing: border-box;
 }
@@ -9,14 +5,13 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: inherit; // Успадковуємо box-sizing
-  margin: 0; // Видаляємо всі зовнішні відступи
-  padding: 0; // Видаляємо всі внутрішні відступи
+  box-sizing: inherit;
+  margin: 0;
 }
 
-// 2. Видаляємо дефолтні стилі для основних HTML-елементів
 body {
-  margin: 0; // На випадок, якщо браузер все ще намагається додати
+  margin: 0;
+  background-color: #f0f2f5;
 }
 
 h1,
@@ -26,73 +21,17 @@ h4,
 h5,
 h6,
 p,
-blockquote,
-pre,
 a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
 img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
 ul,
 li,
-fieldset,
 form,
 label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
 article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
 footer,
 header,
-hgroup,
-menu,
 nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+section {
   margin: 0;
   padding: 0;
   border: 0;
@@ -101,36 +40,24 @@ video {
   vertical-align: baseline;
 }
 
-// 3. Додаткові ресети для специфічних елементів
-
-// Задаємо 'display: block' для HTML5-елементів, які раніше були 'inline'
 article,
-aside,
-details,
-figcaption,
-figure,
 footer,
 header,
-hgroup,
-menu,
 nav,
 section {
   display: block;
 }
 
-// Ресет списків
 ol,
 ul {
   list-style: none;
 }
 
-// Ресет посилань
 a {
-  text-decoration: none; // Видаляємо підкреслення
-  color: inherit; // Наслідуємо колір тексту від батька
+  text-decoration: none;
+  color: inherit;
 }
 
-// Ресет кнопок (для них буде окремий файл)
 button {
   background: none;
   color: inherit;
@@ -141,18 +68,16 @@ button {
   outline: inherit;
 }
 
-// Ресет зображень
 img {
-  max-width: 100%; // Зображення не виходять за межі контейнера
-  height: auto; // Зберігають пропорції
-  display: block; // Для кращого контролю над відступами
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-// Ресет форм (деякі дефолтні стилі можуть заважати)
 input,
 textarea,
 select {
-  -webkit-appearance: none; // Видаляє стилі браузера (особливо на iOS)
+  -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   border-radius: 0;
@@ -161,5 +86,5 @@ select {
   font-size: inherit;
 }
 textarea {
-  resize: vertical; // Дозволяє змінювати розмір тільки по вертикалі
+  resize: none;
 }

@@ -20,11 +20,7 @@ class User
 
     public function register($name, $email, $password)
     {
-        try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+
         $query = "INSERT INTO " . $this->table_name . " (name, email, password) VALUES (:name, :email, :password)";
 
         $stmt = $this->conn->prepare($query);

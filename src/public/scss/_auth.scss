@@ -1,53 +1,33 @@
-.auth-wrraper-container {
+.auth-wrapper-container {
   background: linear-gradient(to right, rgb(235, 245, 255), rgb(180, 215, 255));
   width: 100vw;
   height: 100vh;
-  button {
-    border-radius: 8px;
-
-    color: rgb(255, 255, 255);
-    font-size: 16px;
-    padding: 10px 45px;
-    cursor: pointer;
-    transition: 0.2s ease-in-out;
-    font-weight: 600;
-
-    &:not([type="submit"]) {
-      margin-top: 16px;
-      // Застосовуємо до кнопок, які НЕ є submit
-      background: transparent;
-      border: 1px solid rgb(255, 255, 255);
-
-      &:hover,
-      &:focus {
-        background-color: rgba(255, 255, 255, 0.2); // Додаємо легкий фон при ховері/фокусі
-      }
-    }
-    &[type="submit"] {
-      background-color: rgb(50, 90, 170);
-      border: none;
-
-      &:hover,
-      &:focus {
-        background-color: rgb(37, 75, 151);
-      }
-    }
-  }
+  padding: 0 12px;
 }
 
 .auth-container {
   overflow: hidden;
   position: relative;
-  max-width: 768px;
+  max-width: 316px;
   min-height: 400px;
   margin-left: auto;
   margin-right: auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 50px;
+  padding: 20px;
   display: flex;
-  background-color: white;
+  background-color: $widget-background;
   top: 50%;
   transform: translateY(-50%);
+
+  @include mobile {
+    max-width: 420px;
+  }
+  @include large-mobile {
+    max-width: 768px;
+  }
+  @include tablet {
+    padding: 50px;
+  }
 
   &.active .toggle-left {
     transform: translateX(0%);
@@ -56,21 +36,31 @@
     transform: translateX(-200%);
   }
 
-  &.active .toggle-wrraper {
+  &.active .toggle-wrapper {
     transform: translateX(-100%);
     border-radius: 0px 150px 100px 0px;
   }
 
   &.active .forms-wraper {
-    transform: translateX(100%);
+    @include large-mobile {
+      transform: translateX(100%);
+    }
   }
   &.active .login-form {
     z-index: 2;
     opacity: 1;
+    transform: translateX(0);
+    @include large-mobile {
+      transform: none;
+    }
   }
   &.active .register-form {
     z-index: -1;
     opacity: 0;
+    transform: translateX(100%);
+    @include large-mobile {
+      transform: none;
+    }
   }
 }
 
@@ -78,18 +68,29 @@
   z-index: 2;
   opacity: 1;
   transition: 0.7s ease-in-out;
+  transform: translateX(0);
+  @include large-mobile {
+    transform: none;
+  }
 }
 
 .login-form {
   z-index: -1;
   opacity: 0;
   transition: 0.7s ease-in-out;
+  transform: translateX(100%);
+  @include large-mobile {
+    transform: none;
+  }
 }
 
 .forms-wraper {
   position: relative;
-  width: 50%;
+  width: 100%;
   transition: 0.7s ease-in-out;
+  @include large-mobile {
+    width: 50%;
+  }
 }
 
 .form-container {
@@ -109,18 +110,22 @@
 
 .form {
   width: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: $widget-background;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 20px;
+  padding: 10px;
   padding-top: 0;
+  @include large-mobile {
+    padding: 20px;
+  }
 }
 
-.toggle-wrraper {
+.toggle-wrapper {
+  display: none;
   position: absolute;
   top: 0px;
   left: 50%;
@@ -130,10 +135,13 @@
   transition: 0.7s ease-in-out;
   z-index: 1000;
   border-radius: 150px 0px 0px 100px;
+  @include large-mobile {
+    display: block;
+  }
 }
 
 .toggle-container {
-  background-color: rgb(50, 90, 170);
+  background-color: $auth-blue-color;
   height: 100%;
   position: relative;
   width: 200%;
@@ -142,8 +150,8 @@
   text-align: center;
 }
 
-.text-wrraper {
-  color: rgb(255, 255, 255);
+.text-wrapper {
+  color: $widget-background;
   padding-top: 150px;
   position: absolute;
   width: 50%;
@@ -174,7 +182,7 @@
   }
 
   input {
-    background-color: rgb(238, 238, 238);
+    background-color: #eeeeee;
 
     width: 100%;
     padding: 8px;
@@ -185,29 +193,76 @@
     outline: none;
     &:focus {
       border-color: $primary-blue;
-      // outline: none;
       box-shadow: 0 0 0 1px rgba($primary-color, 0.2);
-      // Збільшив розмиття до 8px, розповсюдження до 2px, прозорість до 0.4
     }
   }
 
   &.error {
     input {
-      border-color: $danger-color; // Червона рамка
+      border-color: $danger-color;
       &:focus {
         border-color: $danger-color;
-        box-shadow: 0 0 0 2px rgba($danger-color, 0.2); // Червоний фокус
+        box-shadow: 0 0 0 2px rgba($danger-color, 0.2);
       }
     }
   }
 }
 
 .error-message {
-  color: $danger-color; // Червоний текст помилки
-  font-size: 12px; // Менший шрифт
+  color: $danger-color;
+  font-size: 10px;
   margin-top: 4px;
   min-height: 12px;
   position: absolute;
-  // display: none; // За замовчуванням приховано, JS буде показувати
-  // Можна також встановити opacity: 0; і transition для плавного появи
+  @include tablet {
+    font-size: 12px;
+  }
+}
+
+.auth-mobile-btn-wrapper {
+  display: flex;
+  gap: 4px;
+  button {
+    text-decoration: underline;
+    color: $auth-blue-color;
+    &:hover,
+    &:focus {
+      color: rgb(16, 36, 77);
+    }
+  }
+  @include large-mobile {
+    display: none;
+  }
+}
+
+.auth-button {
+  border-radius: 8px;
+
+  color: $widget-background;
+  font-size: 16px;
+  padding: 10px 45px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  font-weight: 600;
+}
+
+.auth-button-transparent {
+  margin-top: 16px;
+  background: transparent;
+  border: 1px solid $widget-background;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.auth-button-blue {
+  background-color: $auth-blue-color;
+  border: none;
+
+  &:hover,
+  &:focus {
+    background-color: #254b97;
+  }
 }

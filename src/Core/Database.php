@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-// Кажемо PHP, що ми будемо використовувати ці вбудовані класи
 use PDO;
 
 class Database
@@ -26,7 +25,6 @@ class Database
         $this->password = $config['db_pass'];
     }
 
-    // Метод, який буде підключатися до БД
     public function getConnection()
     {
         $this->conn = null;

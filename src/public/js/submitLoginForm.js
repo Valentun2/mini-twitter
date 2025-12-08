@@ -1,3 +1,5 @@
+import { handleErrors, showMessage } from "./error.js";
+import { hideBtnLoader, showBtnLoader } from "./helpers.js";
 import { clearAllErrors, hideError, showError, validateEmail, validatePassword } from "./validation.js";
 
 const loginForm = document.getElementById("login-form");
@@ -8,20 +10,27 @@ const passwordLogindInput = document.getElementById("password-login");
 async function handleLoginForm(e) {
   e.preventDefault();
   clearAllErrors(loginForm);
-  const formData = new FormData(loginForm);
-  const plainObject = Object.fromEntries(formData.entries());
-  console.log(plainObject);
 
+  if (!validateEmail(emailLoginInput) || !validatePassword(passwordLogindInput)) {
+    return;
+  }
+
+  const formData = new FormData(loginForm);
+  showBtnLoader(e.submitter);
   try {
-    const res = await fetch("../api/login_action.php", {
+    const res = await fetch("/api/login_action.php", {
       method: "POST",
       body: formData,
     });
+    if (!res.ok) {
+      handleErrors(res.status);
+      return;
+    }
     const data = await res.json();
 
     console.log(data);
-    if (data.success) {
-      window.location.href = "../index.php";
+    if (data.status === "success") {
+      window.location.href = "/index.php";
       return;
     }
 
@@ -30,11 +39,12 @@ async function handleLoginForm(e) {
         showError(loginForm[fieldName], data.errors[fieldName]);
       }
     }
-  } catch (error) {}
-  //   if (validateEmail(emailLoginInput) && validatePassword(passwordLogindInput)) {
-  //   }
+  } catch (error) {
+    showMessage("Помилка під час з’єднання з сервером", "error");
+  } finally {
+    hideBtnLoader(e.submitter, "Увійти");
+  }
 }
-// console.log(emailLoginInput);
 
 emailLoginInput.addEventListener("blur", () => validateEmail(emailLoginInput));
 emailLoginInput.addEventListener("input", () => hideError(emailLoginInput));

@@ -16,7 +16,10 @@ $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON: ' . json_last_error_msg()]);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Invalid JSON: ' . json_last_error_msg()
+    ]);
     exit;
 }
 
@@ -24,7 +27,10 @@ $tweet_id = $data['tweet_id'] ?? null;
 $new_text = $data['new_text'] ?? null;
 if ($tweet_id === null || !is_numeric($tweet_id) || $new_text === null) {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing or invalid tweet_id']);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Missing or invalid tweet_id or new_text'
+    ]);
     exit;
 }
 
@@ -44,15 +50,25 @@ try {
         ]);
         exit;
     } else {
-        http_response_code(403); // 403 = Forbidden (Заборонено)
+        http_response_code(403);
         echo json_encode([
             "status" => "error",
-            'error' => 'Cannot update this tweet. Not the owner?'
+            'message' => 'Cannot update this tweet. Not the owner?'
         ]);
         exit;
     }
+} catch (PDOException $e) {
+    error_log("Database Error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Internal Server Error"
+    ]);
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
-    echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-    exit;
+    error_log("General Error: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "status" => "error",
+        "message" => "An unexpected error occurred"
+    ]);
 }

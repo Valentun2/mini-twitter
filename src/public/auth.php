@@ -12,7 +12,7 @@
 <body>
 
 
-    <div class="auth-wrraper-container">
+    <div class="auth-wrapper-container">
         <div class="auth-container js-toggle-container">
             <div class="forms-wraper">
                 <div class="form-container login-form">
@@ -34,13 +34,17 @@
                         </div>
 
                         <div>
-                            <button type="submit">Увійти</button>
+                            <button class="auth-button auth-button-blue is-hidden" type="submit"><span>Увійти</span> <span class="spinner spinner-btn"></span></button>
+                        </div>
+                        <div class="auth-mobile-btn-wrapper">
+                            <p>Немає аккаунту?</p>
+                            <button class="js-login-mobile">Зареєструватися </button>
                         </div>
 
                     </form>
                 </div>
                 <div class="form-container register-form">
-                    <form class="form " id="register-form" novalidate>
+                    <form class="form" id="register-form" novalidate>
                         <h2>Створити акаунт</h2>
 
                         <div class="form-group">
@@ -63,29 +67,32 @@
                         </div>
 
                         <div>
-                            <button type="submit">Зареєструватися</button>
+                            <button class="auth-button auth-button-blue is-hidden" type="submit"><span>Зареєструватися</span> <span class="spinner spinner-btn"></span></button>
                         </div>
 
 
-
+                        <div class="auth-mobile-btn-wrapper">
+                            <p>Вже маєш аккаунт?</p>
+                            <button class="js-register-mobile">Увійти </button>
+                        </div>
 
                     </form>
                 </div>
             </div>
 
-            <div class="toggle-wrraper">
+            <div class="toggle-wrapper">
                 <div class="toggle-container">
-                    <div class="text-wrraper toggle-left">
+                    <div class="text-wrapper toggle-left">
                         <h3>Привіт</h3>
                         <p>Зареєструйтеся, щоб використовувати всі функції сайту</p>
-                        <button class="js-login">Створити аккаунт </button>
+                        <button class="js-login auth-button auth-button-transparent ">Створити аккаунт </button>
 
                     </div>
-                    <div class="text-wrraper toggle-right">
+                    <div class="text-wrapper toggle-right">
                         <h3>Привіт</h3>
                         <p>Увійдіть в аккаунт, щоб використовувати всі функції сайту</p>
 
-                        <button class="js-register">Увійти в аккаунт</button>
+                        <button class="js-register auth-button auth-button-transparent">Увійти в аккаунт</button>
                     </div>
 
                 </div>

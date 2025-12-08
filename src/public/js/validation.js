@@ -57,3 +57,15 @@ export function validatePassword(el) {
 
   return true;
 }
+
+export function validateTextarea(el) {
+  const text = el.value.trim();
+
+  if (text.length === 0) {
+    showError(el, "Поле не може бути порожнім.");
+    return false;
+  }
+
+  hideError(el);
+  return true;
+}

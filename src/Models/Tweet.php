@@ -91,17 +91,14 @@ WHERE tweets.id = :id;
                 tweets.id,
                 users.name
             ORDER BY
-                tweets.created_at DESC
+                tweets.created_at 
         ";
         $stmt = $this->conn->prepare($query);
 
-        // 3. Виконуємо запит
         $stmt->execute();
 
-        // 4. Отримуємо ВСІ рядки у вигляді масиву
         $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 5. Повертаємо масив твітів
         return $tweets;
     }
 
@@ -121,9 +118,7 @@ WHERE tweets.id = :id;
         }
     }
 
-    /**
-     * Знімає лайк (видаляє рядок)
-     */
+
     public function unlikeTweet($user_id, $tweet_id)
     {
         $query = "DELETE FROM likes WHERE user_id = :user_id AND tweet_id = :tweet_id";
@@ -132,12 +127,9 @@ WHERE tweets.id = :id;
         $stmt->bindParam(':tweet_id', $tweet_id);
         $stmt->execute();
 
-        return $stmt->rowCount() > 0; // Поверне true, якщо щось видалило
+        return $stmt->rowCount() > 0;
     }
 
-    /**
-     * Перевіряє, чи лайкнув користувач цей твіт
-     */
     public function isLikedByUser($user_id, $tweet_id)
     {
         $query = "SELECT 1 FROM likes WHERE user_id = :user_id AND tweet_id = :tweet_id LIMIT 1";
@@ -147,7 +139,6 @@ WHERE tweets.id = :id;
         $stmt->bindParam(':tweet_id', $tweet_id);
         $stmt->execute();
 
-        // fetchColumn() поверне "1" (true) якщо знайшов, або false (якщо ні)
         return $stmt->fetchColumn();
     }
 
@@ -159,9 +150,17 @@ WHERE tweets.id = :id;
         $stmt->bindParam(':tweet_id', $tweet_id);
         $stmt->execute();
 
-        // fetchColumn() повертає лише одне значення (саме число)
         $count = $stmt->fetchColumn();
 
-        return (int)$count; // Повертаємо як число (напр., 15)
+        return (int)$count;
+    }
+
+    public function likedTweetIdsByUser($user_id)
+    {
+        $query = "SELECT tweet_id FROM likes WHERE user_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $user_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
