@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Core\Database;
-use App\Models\Tweet;
-
+use App\Models\Like;
+use App\Services\LikeServise;
 
 if (!isset($_POST['tweet_id'])) {
     http_response_code(400);
@@ -29,26 +29,17 @@ $user_id = $_SESSION['user_id'];
 try {
     $database = new Database();
     $db = $database->getConnection();
-    $tweet_model = new Tweet($db);
+    $like = new Like($db);
+    $like_service = new LikeServise($like);
 
-    if ($tweet_model->isLikedByUser($user_id, $tweet_id)) {
-
-        $tweet_model->unlikeTweet($user_id, $tweet_id);
-        $action = 'unliked';
-    } else {
-
-        $tweet_model->likeTweet($user_id, $tweet_id);
-        $action = 'liked';
-    }
-
-
-    $newLikeCount = $tweet_model->getLikeCount($tweet_id);
+    $is_liked = $like_service->toggle($user_id, $tweet_id);
+    $new_like_count = $like_service->getLikeCount($tweet_id);
 
     echo json_encode([
-        'status' => $action,
-        'new_count' => $newLikeCount
+        'status' => 'success',
+        'is_liked' => $is_liked,
+        'new_count' => $new_like_count
     ]);
-    exit;
 } catch (PDOException $e) {
     error_log("Database Error: " . $e->getMessage());
     http_response_code(500);

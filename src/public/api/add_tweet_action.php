@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use App\Core\Database;
 use App\Models\Tweet;
 
+
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode([

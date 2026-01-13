@@ -6,9 +6,10 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 
 use App\Core\Database;
+use App\Models\Like;
 use App\Models\Tweet;
-
-$database = new Database();
+use App\Services\LikeServise;
+use App\Services\TweetService;
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
@@ -25,10 +26,14 @@ try {
 
     $database = new Database();
     $db = $database->getConnection();
-
     $tweet_model = new Tweet($db);
-    $tweets = $tweet_model->allTweets();
-    $liked_ids = $tweet_model->likedTweetIdsByUser($user_id);
+
+    $like_model = new Like($db);
+    $like_service = new LikeServise($like_model);
+    $tweet_service = new TweetService($tweet_model, $like_model, $db);
+
+    $tweets = $tweet_service->getAll();
+    $liked_ids = $like_service->likedTweetIdsByUser($user_id);
 
 
     $liked_map = array_flip($liked_ids);

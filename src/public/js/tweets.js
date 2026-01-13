@@ -124,7 +124,6 @@ export async function toggleLike(btn) {
       body: formData,
     });
     const data = await res.json();
-
     const countSpan = btn.querySelector(".js-like-count");
     if (countSpan) countSpan.textContent = data.new_count;
   } catch (error) {

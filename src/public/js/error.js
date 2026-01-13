@@ -5,6 +5,7 @@ export function showMessage(text, type = "error") {
   if (timeoutId) {
     clearTimeout(timeoutId);
   }
+  console.log(msgBox);
   msgBox.showPopover();
   msgBox.textContent = text;
 
@@ -32,6 +33,8 @@ export function handleErrors(err) {
     case 403:
       showMessage("У вас немає прав редагувати цей твіт", "error");
       break;
+    case 422:
+      showMessage("Цей Email вже зареєстрований");
     case 500:
       showMessage("Помилка сервера. Спробуйте пізніше", "error");
       break;

@@ -1,6 +1,6 @@
 import { handleErrors, showMessage } from "./error.js";
 import { hideBtnLoader, showBtnLoader } from "./helpers.js";
-import { clearAllErrors, hideError, validateEmail, validateName, validatePassword } from "./validation.js";
+import { clearAllErrors, hideError, showError, validateEmail, validateName, validatePassword } from "./validation.js";
 
 const registerForm = document.getElementById("register-form");
 
@@ -41,7 +41,7 @@ async function handleRegisterForm(e) {
       return;
     }
     for (const fieldName in data.errors) {
-      if (!data.errors[fieldName]) {
+      if (data.errors[fieldName]) {
         showError(registerForm[fieldName], data.errors[fieldName]);
       }
     }

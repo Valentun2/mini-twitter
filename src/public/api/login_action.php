@@ -5,14 +5,21 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use App\Services\AuthService;
 use App\Core\Database;
 use App\Models\User;
-
+use App\Services\PasswordService;
 
 
 $database = new Database();
 $db = $database->getConnection();
-$user = new User($db);
+$user_repository = new User($db);
+$password_service = new PasswordService();
+
+$auth_service = new AuthService(
+    $user_repository,
+    $password_service
+);
 
 
 
@@ -51,8 +58,7 @@ if (!empty($errors)) {
 }
 
 try {
-    $loggedInUser = $user->login($email, $password);
-
+    $loggedInUser = $auth_service->login($email, $password);
     if ($loggedInUser) {
         session_regenerate_id(true);
         $_SESSION['user_id'] = $loggedInUser['id'];

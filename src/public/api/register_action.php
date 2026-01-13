@@ -7,14 +7,18 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Core\Database;
 use App\Models\User;
-
-
+use App\Services\AuthService;
+use App\Services\PasswordService;
 
 $database = new Database();
 $db = $database->getConnection();
-$user = new User($db);
+$user_repository = new User($db);
+$password_service = new PasswordService();
 
-
+$auth_service = new AuthService(
+    $user_repository,
+    $password_service
+);
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -43,23 +47,10 @@ if (empty($email)) {
     $errors['email'] = "Поле email не може бути порожнім.";
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = "Некоректний email.";
-} else {
-    try {
-        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-
-        $stmt->execute();
-        $count = $stmt->fetchColumn();
-
-        if ($count > 0) {
-            $errors['email'] = 'Цей Email вже зареєстрований.';
-        }
-    } catch (PDOException $e) {
-        $errors['email'] = 'Виникла помилка при перевірці Email. Спробуйте пізніше.';
-    }
 }
 
 if (!empty($errors)) {
+
     echo json_encode([
         "status" => "error",
         "errors" => $errors,
@@ -68,20 +59,24 @@ if (!empty($errors)) {
 }
 
 try {
-    $newUserId = $user->register($name, $email, $password);
-    if ($newUserId) {
-        $_SESSION['user_id'] = $newUserId;
-        $_SESSION['user_name'] = $name;
-        echo json_encode([
-            "status" => "success",
-        ]);
-        exit;
-    } else {
-        echo json_encode([
-            "status" => "error",
-        ]);
-        exit;
-    }
+    $new_user_id = $auth_service->register($name, $email, $password);
+    $_SESSION['user_id'] = $new_user_id;
+    $_SESSION['user_name'] = $name;
+    echo json_encode([
+        "status" => "success",
+    ]);
+    exit;
+} catch (DomainException $e) {
+    // http_response_code(422);
+
+    echo json_encode([
+        "status" => "error",
+        "errors" => [
+            "email" => $e->getMessage()
+        ],
+        JSON_UNESCAPED_UNICODE
+    ]);
+    exit;
 } catch (PDOException $e) {
     error_log("Database Error: " . $e->getMessage());
     http_response_code(500);

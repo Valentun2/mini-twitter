@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <div class="app-message js-app-msg" popover="manual"></div>
 
 
     <div class="auth-wrapper-container">
